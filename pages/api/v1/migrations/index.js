@@ -24,7 +24,10 @@ async function getHandler(request, response) {
   try {
     dbClient = await database.getNewClient();
 
-    const pendingMigrations = await migrationRunner({...defaultMigrationOptions, dbClient});
+    const pendingMigrations = await migrationRunner({
+      ...defaultMigrationOptions,
+      dbClient,
+    });
     return response.status(200).json(pendingMigrations);
   } finally {
     await dbClient.end();
@@ -35,11 +38,11 @@ async function postHandler(request, response) {
   let dbClient;
   try {
     dbClient = await database.getNewClient();
-  
+
     const migratedMigrations = await migrationRunner({
       ...defaultMigrationOptions,
       dryRun: false,
-      dbClient
+      dbClient,
     });
 
     if (migratedMigrations.length > 0) {
@@ -47,7 +50,6 @@ async function postHandler(request, response) {
     }
 
     return response.status(200).json(migratedMigrations);
-
   } finally {
     await dbClient.end();
   }
