@@ -12,7 +12,7 @@ const defaultMigrationOptions = {
 
 async function listPendingMigrations() {
   let dbClient;
-  
+
   try {
     dbClient = await database.getNewClient();
 
@@ -20,7 +20,7 @@ async function listPendingMigrations() {
       ...defaultMigrationOptions,
       dbClient,
     });
-    
+
     return pendingMigrations;
   } finally {
     await dbClient?.end();
@@ -38,7 +38,7 @@ async function runPendingMigrations() {
       dbClient,
     });
 
-    return migratedMigrations
+    return migratedMigrations;
   } finally {
     await dbClient?.end();
   }
